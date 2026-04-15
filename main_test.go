@@ -1,21 +1,54 @@
 package main
 
 import (
-	"os/exec"
-	"testing"
+"os/exec"
+"strings"
+"testing"
 )
 
-func TestRootCommand(t *testing.T) {
-	cmd := exec.Command("go", "run", "main.go")
-	output, err := cmd.CombinedOutput()
+func runCommand(args []string) string {
+cmd := exec.Command("./hellotool", args...)
+out, err := cmd.CombinedOutput()
+if err != nil {
+return "Error: " + err.Error()
+}
+return strings.TrimSpace(string(out))
+}
 
-	if err != nil {
-		t.Errorf("Expected exit status 0, got error: %v", err)
-	}
+func TestHellotool(t *testing.T) {
+tests := []struct {
+name     string
+args     []string
+expected string
+}{
+{
+name:     "Root command",
+args:     []string{},
+expected: "hellotool v0.1.0",
+},
+{
+name:     "Version flag",
+args:     []string{"--version"},
+expected: "hellotool v0.1.0",
+},
+{
+name:     "Greet default",
+args:     []string{"greet"},
+expected: "Hello, world!",
+},
+{
+name:     "Greet named",
+args:     []string{"greet", "--name", "Bob"},
+expected: "Hello, Bob!",
+},
+}
 
-	expectedOutput := "hellotool v0.1.0\n"
-	actualOutput := string(output)
-	if actualOutput != expectedOutput {
-		t.Errorf("Expected output %q, got %q", expectedOutput, actualOutput)
-	}
+for _, tt := range tests {
+t.Run(tt.name, func(t *testing.T) {
+got := runCommand(tt.args)
+if got != tt.expected {
+t.Errorf("Expected %q, got %q", tt.expected, got)
+}
+})
+}
 }
