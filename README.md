@@ -39,6 +39,6 @@ Output: `Hello, world!`
 Greeting a specific person:
 
 ```bash
-./hellotool greet --name Bob
+./hellotool greet --name Alice
 ```
-Output: `Hello, Bob!`
+Output: `Hello, Alice!`
