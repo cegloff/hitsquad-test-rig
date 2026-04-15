@@ -52,3 +52,19 @@ t.Errorf("Expected %q, got %q", tt.expected, got)
 })
 }
 }
+
+func TestGreetCommand(t *testing.T) {
+t.Run("default name", func(t *testing.T) {
+got := runCommand([]string{"greet"})
+if got != "Hello, world!" {
+t.Errorf("Expected %q, got %q", "Hello, world!", got)
+}
+})
+
+t.Run("custom name", func(t *testing.T) {
+got := runCommand([]string{"greet", "--name", "Bob"})
+if got != "Hello, Bob!" {
+t.Errorf("Expected %q, got %q", "Hello, Bob!", got)
+}
+})
+}

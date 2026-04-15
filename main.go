@@ -10,16 +10,15 @@ import (
 var version = "v0.1.0"
 
 func main() {
-var versionBool bool
 var rootCmd = &cobra.Command{
-Use:   "hellotool",
-Short: "A simple hello tool",
+Use:     "hellotool",
+Short:   "A simple hello tool",
+Version: version,
 Run: func(cmd *cobra.Command, args []string) {
 fmt.Printf("hellotool %s\n", version)
 },
 }
-
-rootCmd.PersistentFlags().BoolVarP(&versionBool, "version", "v", false, "print version")
+rootCmd.SetVersionTemplate("hellotool " + version + "\n")
 
 var name string
 var greetCmd = &cobra.Command{
